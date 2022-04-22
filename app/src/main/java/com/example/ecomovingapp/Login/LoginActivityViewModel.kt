@@ -71,8 +71,8 @@ class LoginActivityViewModel: ViewModel() {
         })
     }
 
-    fun validateUserAndPassword(userId: String,password: String) {
-        if(isUserOk(userId) && isPasswordOk(password)){
+    fun validateUserAndPassword(userName: String, password: String) {
+        if(isUserOk(userName) && isPasswordOk(password)){
             CoroutineScope(Dispatchers.Main).launch {
                 setIsVisibleInMainThread(true)
             }
@@ -85,14 +85,18 @@ class LoginActivityViewModel: ViewModel() {
         }
     }
 
-    private fun isUserOk(userId:String) : Boolean {
+    private fun isUserOk(userName:String) : Boolean {
+        println(userName)
         val regex = Regex("[a-z]{5}$")
-        return regex.matches(userId)
+        println(regex.matches(userName))
+        return regex.matches(userName)
     }
 
     private fun isPasswordOk(password:String) : Boolean{
+        println(password)
         val regex = Regex("[a-zA-Z0-9]{8}$")
-        return  regex.matches(password)
+        println(regex.matches(password))
+        return regex.matches(password)
     }
 
 }

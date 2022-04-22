@@ -25,10 +25,10 @@ class LoginActivity : AppCompatActivity() {
         initObserver()
 
         binding.tietUser.doAfterTextChanged {
-            viewModel.validateUserAndPassword(binding.tietUser.toString(),binding.tietPassword.toString())
+            viewModel.validateUserAndPassword(binding.tietUser.text.toString(),binding.tietPassword.text.toString())
         }
         binding.tietPassword.doAfterTextChanged {
-            viewModel.validateUserAndPassword(binding.tietUser.toString(),binding.tietPassword.toString())
+            viewModel.validateUserAndPassword(binding.tietUser.text.toString(),binding.tietPassword.text.toString())
         }
 
         binding.bSignIn.setOnClickListener {
