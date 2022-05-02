@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EcoMovingApp">
         <activity
-            android:name=".Login.LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Registration.SignUpActivity"
+            android:name=".registration.SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".journey.JourneyActivity"
             android:exported="true" />
     </application>
 

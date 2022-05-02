@@ -1,4 +1,4 @@
-package com.example.ecomovingapp.Login
+package com.example.ecomovingapp.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.activity.viewModels
 import com.example.ecomovingapp.Error
-import com.example.ecomovingapp.Registration.SignUpActivity
+import com.example.ecomovingapp.registration.SignUpActivity
 import com.example.ecomovingapp.databinding.LoginActivityBinding
+import com.example.ecomovingapp.journey.JourneyActivity
 import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity() {
@@ -55,7 +56,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         viewModel.user.observe(this){
-            it?.let {}
+            it?.let {
+                val intent = Intent(this,JourneyActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 

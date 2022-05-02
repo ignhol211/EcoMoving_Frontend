@@ -1,4 +1,4 @@
-package com.example.ecomovingapp.Registration
+package com.example.ecomovingapp.registration
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.example.ecomovingapp.Error
 import com.example.ecomovingapp.User
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.*
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 
@@ -45,30 +47,21 @@ class SignUpActivityViewModel : ViewModel(){
         val client = OkHttpClient()
         val request = Request.Builder()
 
-        //val requestBody = user.toString().toRequestBody()
+        user.user = "prueba"
+        user.password = "prueba123"
+
+        val requestBody = user.toString().toRequestBody()
 
         val formBody: RequestBody = FormBody.Builder()
             .add("password", "ignac123")
             .add("user", "ignac")
             .build()
 
-        request.url("http://10.0.2.2:8083/signUp").post(formBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
-/*
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = client.newCall(request1).execute()
 
-                val gson = Gson()
+        request.url("http://10.0.2.2:8083/signUp").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
 
-                val userToMainThread = gson.fromJson(response.message, User::class.java)
+        //request.method("POST",requestBody).url("http://10.0.2.2:8083/signUp").addHeader("header","Content-type:application/json; charset=utf-8").build()
 
-                setUserInMainThread(userToMainThread)
-                // Do something with the response.
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-*/
         val call = client.newCall(request.build())
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {

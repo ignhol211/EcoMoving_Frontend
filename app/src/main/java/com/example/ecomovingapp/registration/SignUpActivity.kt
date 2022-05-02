@@ -1,4 +1,4 @@
-package com.example.ecomovingapp.Registration
+package com.example.ecomovingapp.registration
 
 import android.os.Bundle
 import androidx.activity.viewModels

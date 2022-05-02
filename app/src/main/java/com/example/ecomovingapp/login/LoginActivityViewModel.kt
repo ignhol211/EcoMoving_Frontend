@@ -1,4 +1,4 @@
-package com.example.ecomovingapp.Login
+package com.example.ecomovingapp.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -43,7 +43,7 @@ class LoginActivityViewModel: ViewModel() {
 
         val client = OkHttpClient()
         val request = Request.Builder()
-        request.url("http://10.0.2.2:8082/signIn/${user}/${password}")
+        request.url("http://10.0.2.2:8083/signIn/${user}/${password}")
 
         val call = client.newCall(request.build())
         call.enqueue(object : Callback {
