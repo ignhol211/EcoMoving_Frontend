@@ -43,7 +43,7 @@ class LoginActivityViewModel: ViewModel() {
 
         val client = OkHttpClient()
         val request = Request.Builder()
-        request.url("http://10.0.2.2:8083/signIn/${user}/${password}")
+        request.url("http://10.0.2.2:8083/signIn")
 
         val call = client.newCall(request.build())
         call.enqueue(object : Callback {

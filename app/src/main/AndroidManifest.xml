@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -25,8 +27,12 @@
             android:name=".registration.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".journey.JourneyActivity"
+            android:name=".journey.MapsActivity"
             android:exported="true" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@layout/google_maps_key" />
+
     </application>
 
 </manifest>

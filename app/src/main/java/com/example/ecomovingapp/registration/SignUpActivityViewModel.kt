@@ -47,18 +47,14 @@ class SignUpActivityViewModel : ViewModel(){
         val client = OkHttpClient()
         val request = Request.Builder()
 
-        user.user = "prueba"
-        user.password = "prueba123"
-
         val requestBody = user.toString().toRequestBody()
-
+/*
         val formBody: RequestBody = FormBody.Builder()
             .add("password", "ignac123")
             .add("user", "ignac")
             .build()
-
-
-        request.url("http://10.0.2.2:8083/signUp").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
+  */
+        request.url("http://10.0.2.2:8083/register").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
 
         //request.method("POST",requestBody).url("http://10.0.2.2:8083/signUp").addHeader("header","Content-type:application/json; charset=utf-8").build()
 
