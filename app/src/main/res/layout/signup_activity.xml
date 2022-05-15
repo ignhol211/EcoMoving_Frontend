@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteX="25dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiet_user"
+            android:id="@+id/tiet_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"

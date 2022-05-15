@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.*
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 class LoginActivityViewModel: ViewModel() {
@@ -39,11 +40,16 @@ class LoginActivityViewModel: ViewModel() {
         _isVisible.value = value
     }
 
-    fun signIn(user: String, password: String){
+    fun login(user:User){
 
         val client = OkHttpClient()
         val request = Request.Builder()
-        request.url("http://10.0.2.2:8083/signIn")
+
+        val requestBody = user.toString().toRequestBody()
+
+        println(requestBody.toString())
+
+        request.url("http://10.0.2.2:8083/login").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
 
         val call = client.newCall(request.build())
         call.enqueue(object : Callback {

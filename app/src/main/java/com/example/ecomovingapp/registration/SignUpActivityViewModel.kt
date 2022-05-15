@@ -48,15 +48,8 @@ class SignUpActivityViewModel : ViewModel(){
         val request = Request.Builder()
 
         val requestBody = user.toString().toRequestBody()
-/*
-        val formBody: RequestBody = FormBody.Builder()
-            .add("password", "ignac123")
-            .add("user", "ignac")
-            .build()
-  */
-        request.url("http://10.0.2.2:8083/register").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
 
-        //request.method("POST",requestBody).url("http://10.0.2.2:8083/signUp").addHeader("header","Content-type:application/json; charset=utf-8").build()
+        request.url("http://10.0.2.2:8083/register").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
 
         val call = client.newCall(request.build())
         call.enqueue(object : Callback {

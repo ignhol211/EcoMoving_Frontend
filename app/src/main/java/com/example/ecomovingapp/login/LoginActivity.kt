@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.activity.viewModels
 import com.example.ecomovingapp.Error
+import com.example.ecomovingapp.User
 import com.example.ecomovingapp.registration.SignUpActivity
-import com.example.ecomovingapp.journey.MapsActivity
 import com.example.ecomovingapp.databinding.LoginActivityBinding
+import com.example.ecomovingapp.journey.MapsActivity
 import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity() {
@@ -25,15 +26,15 @@ class LoginActivity : AppCompatActivity() {
 
         initObserver()
 
-        binding.tietUser.doAfterTextChanged {
-            viewModel.validateUserAndPassword(binding.tietUser.text.toString(),binding.tietPassword.text.toString())
+        binding.tietEmail.doAfterTextChanged {
+            viewModel.validateUserAndPassword(binding.tietEmail.text.toString(),binding.tietPassword.text.toString())
         }
         binding.tietPassword.doAfterTextChanged {
-            viewModel.validateUserAndPassword(binding.tietUser.text.toString(),binding.tietPassword.text.toString())
+            viewModel.validateUserAndPassword(binding.tietEmail.text.toString(),binding.tietPassword.text.toString())
         }
 
-        binding.bSignIn.setOnClickListener {
-            viewModel.signIn(binding.tietUser.toString(),binding.tietPassword.toString())
+        binding.login.setOnClickListener {
+            viewModel.login(User(binding.tietEmail.toString(),binding.tietPassword.toString()))
         }
 
         binding.tvSignUp.setOnClickListener {
@@ -57,17 +58,17 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.user.observe(this){
             it?.let {
-                val intent = Intent(this,MapsActivity::class.java)
+                val intent = Intent(this, MapsActivity::class.java)
                 startActivity(intent)
             }
         }
     }
 
     private fun setVisible(){
-        binding.bSignIn.visibility = View.VISIBLE
+        binding.login.visibility = View.VISIBLE
     }
     private fun setGone(){
-        binding.bSignIn.visibility = View.GONE
+        binding.login.visibility = View.GONE
     }
     private fun showSnackBar(error: Error) {
         Snackbar.make(binding.root,error.toString(),Snackbar.LENGTH_LONG).show()
