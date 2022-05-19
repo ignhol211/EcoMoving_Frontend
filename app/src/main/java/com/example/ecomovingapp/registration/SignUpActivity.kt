@@ -20,8 +20,6 @@ class SignUpActivity: AppCompatActivity() {
         initObserver()
 
         binding.bSignUp.setOnClickListener(){
-            println(binding.tietEmail.text.toString())
-            println(binding.tietPassword.text.toString())
             viewModel.signUp(User(binding.tietEmail.text.toString(),binding.tietPassword.text.toString()))
         }
 

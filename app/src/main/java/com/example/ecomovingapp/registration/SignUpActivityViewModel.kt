@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.ecomovingapp.Error
 import com.example.ecomovingapp.User
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,13 +44,22 @@ class SignUpActivityViewModel : ViewModel(){
     fun signUp(user: User){
 
         val client = OkHttpClient()
-        val request = Request.Builder()
+        //val request = Request.Builder()
 
-        val requestBody = user.toString().toRequestBody()
+        val formBody: RequestBody = FormBody.Builder()
+            .add("email", user.email)
+            .add("password", user.password)
+            .build()
 
-        request.url("http://10.0.2.2:8083/register").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
+        val request: Request = Request.Builder()
+            .url("http://10.0.2.2:8083/register")
+            .post(formBody)
+            .addHeader("header","Content-type:application/json; charset=utf-8")
+            .build()
 
-        val call = client.newCall(request.build())
+        //request.url("http://10.0.2.2:8083/register").post(myUser.toString().toRequestBody())
+
+        val call = client.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 println(e.toString())

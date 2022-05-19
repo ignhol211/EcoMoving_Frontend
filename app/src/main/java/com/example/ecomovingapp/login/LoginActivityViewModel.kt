@@ -47,8 +47,6 @@ class LoginActivityViewModel: ViewModel() {
 
         val requestBody = user.toString().toRequestBody()
 
-        println(requestBody.toString())
-
         request.url("http://10.0.2.2:8083/login").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
 
         val call = client.newCall(request.build())
@@ -70,6 +68,7 @@ class LoginActivityViewModel: ViewModel() {
                     val userToMainThread = gson.fromJson(body, User::class.java)
 
                     CoroutineScope(Dispatchers.Main).launch {
+                        println(body)
                         setUserInMainThread(userToMainThread)
                     }
                 }

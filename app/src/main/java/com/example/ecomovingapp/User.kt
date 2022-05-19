@@ -2,9 +2,10 @@ package com.example.ecomovingapp
 
 import com.google.gson.Gson
 
-class User (var email:String, var password:String) {
+class User (val email:String, val password:String) {
 
     var token:String? = null
+
     override fun toString():String{
         val gson = Gson()
         return gson.toJson(this)
