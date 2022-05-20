@@ -18,6 +18,15 @@
         app:layout_constraintVertical_bias="0.2"
         android:contentDescription="@string/iv_logo_description" />
 
+    <TextView
+        android:id="@+id/userFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/til_user"
+        android:textSize="11sp"
+        android:text="@string/userformat"
+        android:visibility="visible"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_user"
         android:layout_width="match_parent"
@@ -36,6 +45,15 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/passwordFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/til_password"
+        android:textSize="11sp"
+        android:text="@string/passwordformat"
+        android:visibility="visible"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

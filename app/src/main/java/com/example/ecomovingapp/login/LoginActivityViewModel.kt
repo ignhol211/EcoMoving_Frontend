@@ -3,6 +3,7 @@ package com.example.ecomovingapp.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import com.ecomovingserver.ecomovingserver.AuthUser
 import com.example.ecomovingapp.Error
 import com.example.ecomovingapp.User
 import com.google.gson.Gson
@@ -11,17 +12,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 class LoginActivityViewModel: ViewModel() {
 
-    private val _user by lazy { MediatorLiveData<User>() }
-    val user : LiveData<User>
-        get() = _user
+    private val _authUser by lazy { MediatorLiveData<AuthUser>() }
+    val authUser : LiveData<AuthUser>
+        get() = _authUser
 
-    suspend fun setUserInMainThread(value:User) = withContext(Dispatchers.Main){
-        _user.value = value
+    suspend fun setAuthUserInMainThread(value: AuthUser) = withContext(Dispatchers.Main){
+        _authUser.value = value
     }
 
     private val _error by lazy { MediatorLiveData<Error>() }
@@ -42,34 +44,31 @@ class LoginActivityViewModel: ViewModel() {
 
     fun login(user:User){
 
+        println(user.toString())
+
         val client = OkHttpClient()
         val request = Request.Builder()
 
-        val requestBody = user.toString().toRequestBody()
-
-        request.url("http://10.0.2.2:8083/login").post(requestBody).addHeader("header","Content-type:application/json; charset=utf-8").build()
+        request.url("http://10.0.2.2:8083/login")
+        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val requestBody = user.toString().toRequestBody(mediaType)
+        request.post(requestBody)
 
         val call = client.newCall(request.build())
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 println(e.toString())
                 CoroutineScope(Dispatchers.Main).launch {
-                    val error = Error(1,"Fail to connect")
-                    setErrorInMainThread(error)
+                    setErrorInMainThread(Error.error1)
                 }
             }
-
             override fun onResponse(call: Call, response: Response) {
                 response.body?.let { responseBody ->
                     val body = responseBody.string()
-
                     val gson = Gson()
-
-                    val userToMainThread = gson.fromJson(body, User::class.java)
-
+                    val userToMainThread = gson.fromJson(body, AuthUser::class.java)
                     CoroutineScope(Dispatchers.Main).launch {
-                        println(body)
-                        setUserInMainThread(userToMainThread)
+                            setAuthUserInMainThread(userToMainThread)
                     }
                 }
             }
@@ -79,28 +78,22 @@ class LoginActivityViewModel: ViewModel() {
     fun validateUserAndPassword(userName: String, password: String) {
         if(isUserOk(userName) && isPasswordOk(password)){
             CoroutineScope(Dispatchers.Main).launch {
-                setIsVisibleInMainThread(true)
+                setIsVisibleInMainThread(false)
             }
         }else{
             CoroutineScope(Dispatchers.Main).launch {
-                setIsVisibleInMainThread(false)
-                val error = Error(2,"Invalid user or password")
-                setErrorInMainThread(error)
+                setIsVisibleInMainThread(true)
             }
         }
     }
 
-    private fun isUserOk(userName:String) : Boolean {
-        println(userName)
+    private fun isUserOk(email:String) : Boolean {
         val regex = Regex("[a-z]{5}$")
-        println(regex.matches(userName))
-        return regex.matches(userName)
+        return regex.matches(email)
     }
 
     private fun isPasswordOk(password:String) : Boolean{
-        println(password)
         val regex = Regex("[a-zA-Z0-9]{8}$")
-        println(regex.matches(password))
         return regex.matches(password)
     }
 

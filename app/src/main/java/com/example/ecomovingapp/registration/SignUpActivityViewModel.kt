@@ -11,18 +11,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 
 class SignUpActivityViewModel : ViewModel(){
 
-    private val _user by lazy { MediatorLiveData<User>() }
-    val user : LiveData<User>
-        get() = _user
+    private val _userCreated by lazy { MediatorLiveData<Boolean>() }
+    val user : LiveData<Boolean>
+        get() = _userCreated
 
-    suspend fun setUserInMainThread(value: User) = withContext(Dispatchers.Main){
-        _user.value = value
+    suspend fun setUserCreatedInMainThread(value: Boolean) = withContext(Dispatchers.Main){
+        _userCreated.value = value
     }
 
     private val _error by lazy { MediatorLiveData<Error>() }
@@ -41,72 +42,45 @@ class SignUpActivityViewModel : ViewModel(){
         _isVisible.value = value
     }
 
-    fun signUp(user: User){
+    suspend fun signUp(user: User){
 
         val client = OkHttpClient()
-        //val request = Request.Builder()
+        val request = Request.Builder()
 
-        val formBody: RequestBody = FormBody.Builder()
-            .add("email", user.email)
-            .add("password", user.password)
-            .build()
+        request.url("http://10.0.2.2:8083/register")
+        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val requestBody = user.toString().toRequestBody(mediaType)
+        request.post(requestBody)
 
-        val request: Request = Request.Builder()
-            .url("http://10.0.2.2:8083/register")
-            .post(formBody)
-            .addHeader("header","Content-type:application/json; charset=utf-8")
-            .build()
-
-        //request.url("http://10.0.2.2:8083/register").post(myUser.toString().toRequestBody())
-
-        val call = client.newCall(request)
+        val call = client.newCall(request.build())
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 println(e.toString())
                 CoroutineScope(Dispatchers.Main).launch {
-                    val error = Error(1,"Fail to connect")
-                    setErrorInMainThread(error)
+                    setErrorInMainThread(Error.error1)
                 }
             }
-
             override fun onResponse(call: Call, response: Response) {
                 response.body?.let { responseBody ->
                     val body = responseBody.string()
-
                     val gson = Gson()
-
-                    val userToMainThread = gson.fromJson(body, User::class.java)
-
+                    val userCreated = gson.fromJson(body, Boolean::class.java)
                     CoroutineScope(Dispatchers.Main).launch {
-                        setUserInMainThread(userToMainThread)
+                        setUserCreatedInMainThread(userCreated)
                     }
                 }
             }
         })
     }
-
-    fun validateUserAndPassword(userId: String,password: String) {
-        if(isUserOk(userId) && isPasswordOk(password)){
-            CoroutineScope(Dispatchers.Main).launch {
-                setIsVisibleInMainThread(true)
-            }
-        }else{
-            CoroutineScope(Dispatchers.Main).launch {
-                setIsVisibleInMainThread(false)
-                val error = Error(2,"Invalid user or password")
-                setErrorInMainThread(error)
-            }
-        }
+    fun validateUserAndPassword(email: String, password: String):Boolean {
+        return isUserOk(email) && isPasswordOk(password)
     }
-
-    private fun isUserOk(userId:String) : Boolean {
+    private fun isUserOk(email:String) : Boolean {
         val regex = Regex("[a-z]{5}$")
-        return regex.matches(userId)
+        return regex.matches(email)
     }
-
     private fun isPasswordOk(password:String) : Boolean{
         val regex = Regex("[a-zA-Z0-9]{8}$")
         return  regex.matches(password)
     }
-
 }

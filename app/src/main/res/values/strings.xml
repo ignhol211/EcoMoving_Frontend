@@ -5,4 +5,6 @@
     <string name="iv_logo_description">EcoMovingLogo</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sing in</string>
+    <string name="userformat">user@example.com</string>
+    <string name="passwordformat">Example123$</string>
 </resources>

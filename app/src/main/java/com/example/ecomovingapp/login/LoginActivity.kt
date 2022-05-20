@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.login.setOnClickListener {
-            viewModel.login(User(binding.tietEmail.toString(),binding.tietPassword.toString()))
+            viewModel.login(User(binding.tietEmail.text.toString(),binding.tietPassword.text.toString()))
         }
 
         binding.tvSignUp.setOnClickListener {
@@ -56,8 +56,9 @@ class LoginActivity : AppCompatActivity() {
             showSnackBar(it)
         }
 
-        viewModel.user.observe(this){
+        viewModel.authUser.observe(this){
             it?.let {
+                println("en intent $it")
                 val intent = Intent(this, MapsActivity::class.java)
                 startActivity(intent)
             }
@@ -65,10 +66,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setVisible(){
-        binding.login.visibility = View.VISIBLE
+        binding.userFormat.visibility = View.VISIBLE
+        binding.passwordFormat.visibility = View.VISIBLE
+        binding.login.visibility = View.GONE
     }
     private fun setGone(){
-        binding.login.visibility = View.GONE
+        binding.userFormat.visibility = View.GONE
+        binding.passwordFormat.visibility = View.GONE
+        binding.login.visibility = View.VISIBLE
     }
     private fun showSnackBar(error: Error) {
         Snackbar.make(binding.root,error.toString(),Snackbar.LENGTH_LONG).show()
