@@ -2,6 +2,7 @@ package com.example.ecomovingapp.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -58,9 +59,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.authUser.observe(this){
             it?.let {
-                println("en intent $it")
-                val intent = Intent(this, MapsActivity::class.java)
-                startActivity(intent)
+                MapsActivity.launch(this@LoginActivity,it.token.toString())
             }
         }
     }

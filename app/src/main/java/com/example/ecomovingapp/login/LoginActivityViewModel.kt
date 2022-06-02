@@ -44,8 +44,6 @@ class LoginActivityViewModel: ViewModel() {
 
     fun login(user:User){
 
-        println(user.toString())
-
         val client = OkHttpClient()
         val request = Request.Builder()
 
@@ -68,7 +66,9 @@ class LoginActivityViewModel: ViewModel() {
                     val gson = Gson()
                     val userToMainThread = gson.fromJson(body, AuthUser::class.java)
                     CoroutineScope(Dispatchers.Main).launch {
-                            setAuthUserInMainThread(userToMainThread)
+                        userToMainThread?.let{
+                            setAuthUserInMainThread(it)
+                        }
                     }
                 }
             }
