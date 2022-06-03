@@ -39,7 +39,7 @@ class MapsActivityViewModel: ViewModel() {
         val client = OkHttpClient()
         val request = Request.Builder()
 
-        request.url("http://10.0.2.2:8083/getAvailabledVehicles")
+        request.url("http://10.0.2.2:8083/getVehicles")
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestBody = authUserToken.toRequestBody(mediaType)
         request.post(requestBody)
@@ -55,10 +55,10 @@ class MapsActivityViewModel: ViewModel() {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.let { responseBody ->
                     val body = responseBody.string()
-                    Log.d("2   ",body)
+                    Log.d("PRUEBAAAA   ",body)
                     val gson = Gson()
                     val vehicleResponse = gson.fromJson(body, VehicleResponse::class.java)
-                    Log.d("1   ",vehicleResponse.toString())
+                    Log.d("TESTSSSSS   ",vehicleResponse.toString())
                     CoroutineScope(Dispatchers.Main).launch {
                         setVehicleResponseInMainThread(vehicleResponse)
                     }

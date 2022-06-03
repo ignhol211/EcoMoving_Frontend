@@ -3,6 +3,7 @@ package com.example.ecomovingapp.journey
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -13,7 +14,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -61,8 +64,10 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapClic
             moveCamera(CameraUpdateFactory.newLatLngZoom(UPV,15f))
             addMarker(MarkerOptions().position(UPV).title("UPV")
                 .snippet("Universidad Politécnica de Valencia")
-                .icon(BitmapDescriptorFactory.fromResource(
-                    android.R.drawable.ic_menu_compass))
+                .icon(
+                    fromResource(
+                    android.R.drawable.ic_menu_compass)
+                )
                 .anchor(0.5f,0.5f)
             )
         }
@@ -87,8 +92,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapClic
 
     override fun onMapClick(p0: LatLng) {
         map.addMarker(MarkerOptions().position(p0)
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)))
+            .icon(fromResource(R.mipmap.coche)))
     }
-
 }
-
