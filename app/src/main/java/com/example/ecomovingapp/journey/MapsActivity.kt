@@ -3,7 +3,6 @@ package com.example.ecomovingapp.journey
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -14,8 +13,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -32,7 +29,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapClic
     }
 
     lateinit var map: GoogleMap
-    val UPV = LatLng(39.481106, -0.340987)
+    val USER = LatLng(39.481106, -0.340987)
     private val viewModel : MapsActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,32 +40,33 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapClic
 
         val token = intent.getStringExtra(TOKEN)
 
+        viewModel.initializeDatabase(this)
+
         viewModel.getAvailableVehicles(token.toString())
 
         initObserver()
     }
 
     private fun initObserver() {
-        viewModel.vehicleResponse.observe(this){
-            it.vehicles.forEach {vehicle->
-                map.addMarker(MarkerOptions().position(LatLng(vehicle.latitude,vehicle.longitude))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)))
+        viewModel.vehicleResponse.observe(this) {
+            it?.let {
+                it.vehicles.forEach { vehicle ->
+                    map.addMarker(
+                        MarkerOptions().position(LatLng(vehicle.latitude, vehicle.longitude))
+                            .icon(fromResource(R.mipmap.car))
+                    )
+                }
             }
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap.apply{
-            mapType = GoogleMap.MAP_TYPE_SATELLITE
+            mapType = GoogleMap.MAP_TYPE_NORMAL
             uiSettings.isZoomControlsEnabled = true
-            moveCamera(CameraUpdateFactory.newLatLngZoom(UPV,15f))
-            addMarker(MarkerOptions().position(UPV).title("UPV")
-                .snippet("Universidad Politécnica de Valencia")
-                .icon(
-                    fromResource(
-                    android.R.drawable.ic_menu_compass)
-                )
-                .anchor(0.5f,0.5f)
+            moveCamera(CameraUpdateFactory.newLatLngZoom(USER,15f))
+            addMarker(MarkerOptions().position(USER).title("User")
+                .icon(fromResource(R.mipmap.user))
             )
         }
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -78,12 +76,12 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapClic
         map.setOnMapClickListener(this)
     }
 
-    fun moveCamera(view: View){
-        map.moveCamera(CameraUpdateFactory.newLatLng(UPV))
+    fun saveLocation(view: View){
+        map.moveCamera(CameraUpdateFactory.newLatLng(USER))
     }
 
-    fun animateCamera(view:View){
-        map.animateCamera(CameraUpdateFactory.newLatLng(UPV))
+    fun focusOnUser(view:View){
+        map.animateCamera(CameraUpdateFactory.newLatLng(USER))
     }
 
     fun addMarker(view:View){
@@ -92,6 +90,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapClic
 
     override fun onMapClick(p0: LatLng) {
         map.addMarker(MarkerOptions().position(p0)
-            .icon(fromResource(R.mipmap.coche)))
+            .icon(fromResource(R.mipmap.car)))
     }
 }

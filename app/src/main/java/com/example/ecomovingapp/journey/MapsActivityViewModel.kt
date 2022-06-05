@@ -1,13 +1,14 @@
 package com.example.ecomovingapp.journey
 
-import android.util.Log
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import com.ecomovingserver.ecomovingserver.AuthUser
+import androidx.room.Room
 import com.example.ecomovingapp.Error
+import com.example.ecomovingapp.localdatabase.AppDatabase
+import com.example.ecomovingapp.localdatabase.LocationDao
 import com.google.gson.Gson
-import com.serverecomoving.Vehicle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +19,9 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 class MapsActivityViewModel: ViewModel() {
+
+    private lateinit var db: AppDatabase
+    private lateinit var locationDao: LocationDao
 
     private val _vehicleResponse by lazy { MediatorLiveData<VehicleResponse>() }
     val vehicleResponse : MediatorLiveData<VehicleResponse>
@@ -34,6 +38,12 @@ class MapsActivityViewModel: ViewModel() {
     suspend fun setErrorInMainThread(value:Error) = withContext(Dispatchers.Main){
         _error.value = value
     }
+
+    fun initializeDatabase(context: Context){
+        db = Room.databaseBuilder(context,AppDatabase::class.java,"locations").build()
+        locationDao = db.locationDao()
+    }
+
 
     fun getAvailableVehicles(authUserToken:String){
         val client = OkHttpClient()
@@ -55,10 +65,8 @@ class MapsActivityViewModel: ViewModel() {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.let { responseBody ->
                     val body = responseBody.string()
-                    Log.d("PRUEBAAAA   ",body)
                     val gson = Gson()
                     val vehicleResponse = gson.fromJson(body, VehicleResponse::class.java)
-                    Log.d("TESTSSSSS   ",vehicleResponse.toString())
                     CoroutineScope(Dispatchers.Main).launch {
                         setVehicleResponseInMainThread(vehicleResponse)
                     }

@@ -3,14 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_green">
 
 
+    <TextView
+        android:id="@+id/userFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/til_user"
+        android:textSize="11sp"
+        android:textColor="@color/ecomoving_darkgreen"
+        android:text="@string/userformat"
+        android:visibility="visible"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_user"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
         android:layout_margin="25dp"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="25dp">
@@ -25,6 +37,16 @@
             app:errorEnabled="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/passwordFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/til_password"
+        android:textSize="11sp"
+        android:text="@string/passwordformat"
+        android:textColor="@color/ecomoving_darkgreen"
+        android:visibility="visible"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -48,7 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
+        android:backgroundTint="@color/ecomoving_darkgreen"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

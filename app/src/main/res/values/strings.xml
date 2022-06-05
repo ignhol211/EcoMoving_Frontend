@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EcoMovingApp</string>
+    <string name="app_name">EcoMoving</string>
     <string name="login_user">User</string>
     <string name="login_password">Password</string>
     <string name="iv_logo_description">EcoMovingLogo</string>
@@ -7,4 +7,9 @@
     <string name="sign_in">Sing in</string>
     <string name="userformat">user@example.com</string>
     <string name="passwordformat">Example123$</string>
+    <string name="copyright">©IgnacioHolguínBallesteros</string>
+    <string name="youtube">YouTube</string>
+    <string name="twitter">Twitter</string>
+    <string name="instagram">Instagram</string>
+    <string name="linkedin">LinkedIn</string>
 </resources>
