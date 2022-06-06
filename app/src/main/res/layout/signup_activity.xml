@@ -3,29 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_green">
+    android:layout_height="match_parent">
 
 
     <TextView
         android:id="@+id/userFormat"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/til_user"
-        android:textSize="11sp"
-        android:textColor="@color/ecomoving_darkgreen"
+        android:layout_marginVertical="15dp"
         android:text="@string/userformat"
-        android:visibility="visible"/>
+        android:textColor="@color/ecomoving_darkgreen"
+        android:textSize="11sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/til_user"
+        app:layout_constraintStart_toEndOf="@+id/iv_email"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_email"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/email"
+        android:layout_marginHorizontal="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/til_user"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userFormat"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_user"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        android:layout_margin="25dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="25dp">
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_email"
+        app:layout_constraintTop_toBottomOf="@+id/userFormat">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_email"
@@ -34,26 +47,43 @@
             android:gravity="center_horizontal"
             android:hint="@string/login_user"
             android:inputType="text"
-            app:errorEnabled="true" />
+            app:errorEnabled="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/passwordFormat"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/til_password"
-        android:textSize="11sp"
+        android:layout_marginTop="15dp"
         android:text="@string/passwordformat"
         android:textColor="@color/ecomoving_darkgreen"
-        android:visibility="visible"/>
+        android:textSize="11sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/til_password"
+        app:layout_constraintStart_toEndOf="@+id/iv_password"
+        app:layout_constraintTop_toBottomOf="@+id/til_user" />
+
+    <ImageView
+        android:id="@+id/iv_password"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/password"
+        android:layout_marginHorizontal="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/til_password"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordFormat"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="25dp"
-        app:layout_constraintTop_toBottomOf="@+id/til_user">
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_password"
+        app:layout_constraintTop_toBottomOf="@+id/til_user"
+        app:layout_constraintBottom_toTopOf="@+id/b_signUp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_password"
@@ -77,5 +107,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_password" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/ecomoving_darkgreen"
+        android:text="@string/copyright"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

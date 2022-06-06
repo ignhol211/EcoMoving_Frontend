@@ -23,6 +23,8 @@ class SignUpActivity: AppCompatActivity() {
         binding = SignupActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         initObserver()
 
         binding.bSignUp.setOnClickListener(){

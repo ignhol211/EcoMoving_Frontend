@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.ecomovingapp.R
@@ -17,7 +18,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     companion object{
         var TOKEN = "initialValue"
@@ -37,6 +38,8 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapClic
         setContentView(R.layout.maps_activity)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        supportActionBar?.hide()
 
         val token = intent.getStringExtra(TOKEN)
 

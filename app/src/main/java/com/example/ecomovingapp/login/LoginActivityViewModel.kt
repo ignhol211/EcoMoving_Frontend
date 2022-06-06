@@ -88,12 +88,26 @@ class LoginActivityViewModel: ViewModel() {
     }
 
     private fun isUserOk(email:String) : Boolean {
-        val regex = Regex("[a-z]{5}$")
+        /**
+         * Check if user´s email matches standard email format. Uses regular expressions
+         * @param
+         *
+         * @return
+         */
+        val regex = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+\$")
         return regex.matches(email)
     }
 
     private fun isPasswordOk(password:String) : Boolean{
-        val regex = Regex("[a-zA-Z0-9]{8}$")
+        /**
+         * Check if the user´s password matches password format.
+         * Min 8 characters; at least 1 upperCase; at least 1 lowerCase; at least 1 number; at least 1 special character; no blanks
+         *
+         * @param
+         *
+         * @return
+         */
+        val regex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\$@!%*?&.,;])([A-Za-z\\d\$@!%*?&.,;]|[^ ]){8,}\$")
         return regex.matches(password)
     }
 

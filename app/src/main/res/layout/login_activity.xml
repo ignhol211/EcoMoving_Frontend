@@ -82,7 +82,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/til_user"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userFormat"/>
+        app:layout_constraintTop_toBottomOf="@+id/userFormat"
+        android:contentDescription="@string/userformat" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_user"
@@ -126,7 +127,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/til_password"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordFormat"/>
+        app:layout_constraintTop_toBottomOf="@+id/passwordFormat"
+        android:contentDescription="@string/passwordformat" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_password"
@@ -136,7 +138,8 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_password"
-        app:layout_constraintTop_toBottomOf="@+id/til_user">
+        app:layout_constraintTop_toBottomOf="@+id/til_user"
+        app:layout_constraintBottom_toTopOf="@+id/login">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_password"
@@ -144,7 +147,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:hint="@string/login_password"
-            android:inputType="text"
+            android:inputType="textPassword"
             app:errorEnabled="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
