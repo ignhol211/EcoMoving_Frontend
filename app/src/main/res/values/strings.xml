@@ -12,4 +12,8 @@
     <string name="twitter">Twitter</string>
     <string name="instagram">Instagram</string>
     <string name="linkedin">LinkedIn</string>
+    <string name="save">Save</string>
+    <string name="focus">Focus</string>
+    <string name="marcador">marcador</string>
+    <string name="cancel">Cancel</string>
 </resources>

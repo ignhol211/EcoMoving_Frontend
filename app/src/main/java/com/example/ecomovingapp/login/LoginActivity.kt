@@ -25,8 +25,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        supportActionBar?.hide()
-
         initObserver()
 
         binding.tietEmail.doAfterTextChanged {
@@ -43,11 +41,6 @@ class LoginActivity : AppCompatActivity() {
         binding.tvSignUp.setOnClickListener {
             openSignUpActivity()
         }
-    }
-
-    private fun openSignUpActivity() {
-        val intent = Intent(this,SignUpActivity::class.java)
-        startActivity(intent)
     }
 
     private fun initObserver() {
@@ -67,17 +60,36 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setVisible(){
+        /**
+         * Hide labels
+         */
         binding.userFormat.visibility = View.VISIBLE
         binding.passwordFormat.visibility = View.VISIBLE
         binding.login.visibility = View.GONE
     }
     private fun setGone(){
+        /**
+         * Show labels
+         */
         binding.userFormat.visibility = View.GONE
         binding.passwordFormat.visibility = View.GONE
         binding.login.visibility = View.VISIBLE
     }
     private fun showSnackBar(error: Error) {
+        /**
+         * Show snackbar
+         *
+         * @param error:Error
+         */
         Snackbar.make(binding.root,error.toString(),Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun openSignUpActivity() {
+        /**
+         * Launch SignUpActivity
+         */
+        val intent = Intent(this,SignUpActivity::class.java)
+        startActivity(intent)
     }
 
 }

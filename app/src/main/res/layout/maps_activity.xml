@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".journey.MapsActivity"
-    android:background="@color/background_green">
+    tools:context=".journey.MapsActivity">
 
     <fragment
         android:id="@+id/map"
@@ -18,7 +17,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/buttons"/>
+        app:layout_constraintBottom_toTopOf="@id/text_views"/>
+
+    <LinearLayout
+        android:id="@+id/text_views"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/map"
+        app:layout_constraintBottom_toTopOf="@id/buttons">
+
+        <TextView
+            android:id="@+id/origin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Punto de origen"
+            android:layout_margin="5dp"
+            android:padding="2dp"/>
+        <TextView
+            android:id="@+id/destiny"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Punto de destino"
+            android:layout_margin="5dp"
+            android:padding="2dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -28,34 +54,47 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:backgroundTint="@color/ecomoving_darkgreen"
-            android:onClick="saveLocation"
-            android:text="Save" />
+            android:text="@string/save"
+            app:cornerRadius="15dp"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="5dp"
+            android:backgroundTint="@color/ecomoving_darkgreen"
+            android:text="@string/cancel"
+            app:cornerRadius="15dp"
+            android:visibility="gone"/>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:backgroundTint="@color/ecomoving_darkgreen"
             android:onClick="focusOnUser"
-            android:text="Focus" />
+            android:text="@string/focus"
+            app:cornerRadius="15dp"/>
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/button_addMarker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:backgroundTint="@color/ecomoving_darkgreen"
             android:onClick="addMarker"
-            android:text="marcador" />
+            android:text="@string/marcador"
+            app:cornerRadius="15dp"/>
 
     </LinearLayout>
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.LoginActivity">
+    tools:context=".login.LoginActivity"
+    android:backgroundTint="@color/ecomoving_lightgreen">
 
     <LinearLayout
         android:id="@+id/social_media"
@@ -161,6 +162,7 @@
         android:textStyle="bold"
         android:backgroundTint="@color/ecomoving_darkgreen"
         android:visibility="invisible"
+        app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_password" />
@@ -170,9 +172,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
-        android:backgroundTint="@color/ecomoving_darkgreen"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:backgroundTint="@color/ecomoving_darkgreen"
+        app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login" />

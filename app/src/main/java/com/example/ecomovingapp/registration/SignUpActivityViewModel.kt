@@ -43,6 +43,11 @@ class SignUpActivityViewModel : ViewModel(){
     }
 
     suspend fun signUp(user: User){
+        /**
+         * Request to user registration
+         *
+         * @param user:User
+         */
 
         val client = OkHttpClient()
         val request = Request.Builder()
@@ -73,14 +78,34 @@ class SignUpActivityViewModel : ViewModel(){
         })
     }
     fun validateUserAndPassword(email: String, password: String):Boolean {
+        /**
+         * Validate users via email and password
+         * @param userEmail:String
+         * @param password:String
+         *
+         * @return Boolean true if user-password is valid, false if not
+         */
         return isUserOk(email) && isPasswordOk(password)
     }
     private fun isUserOk(email:String) : Boolean {
-        val regex = Regex("[a-z]{5}$")
+        /**
+         * Check if user´s email matches standard email format. Uses regular expressions
+         * @param email:String
+         * @return Boolean true if matches, false if not
+         */
+        val regex = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+\$")
         return regex.matches(email)
     }
     private fun isPasswordOk(password:String) : Boolean{
-        val regex = Regex("[a-zA-Z0-9]{8}$")
-        return  regex.matches(password)
+        /**
+         * Check if the user´s password matches password format.
+         * Min 8 characters; at least 1 upperCase; at least 1 lowerCase; at least 1 number; at least 1 special character; no blanks
+         *
+         * @param password:String
+         *
+         * @return Boolean true if matches, false if not
+         */
+        val regex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\$@!%*?&.,;])([A-Za-z\\d\$@!%*?&.,;]|[^ ]){8,}\$")
+        return regex.matches(password)
     }
 }

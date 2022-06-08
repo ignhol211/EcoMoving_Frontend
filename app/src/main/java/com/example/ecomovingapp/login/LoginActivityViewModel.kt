@@ -43,6 +43,10 @@ class LoginActivityViewModel: ViewModel() {
     }
 
     fun login(user:User){
+        /**
+         * Request to user´s login
+         * @param user:User
+         */
 
         val client = OkHttpClient()
         val request = Request.Builder()
@@ -75,8 +79,13 @@ class LoginActivityViewModel: ViewModel() {
         })
     }
 
-    fun validateUserAndPassword(userName: String, password: String) {
-        if(isUserOk(userName) && isPasswordOk(password)){
+    fun validateUserAndPassword(userEmail: String, password: String) {
+        /**
+         * Validate users via email and password
+         * @param userEmail:String
+         * @param password:String
+         */
+        if(isUserOk(userEmail) && isPasswordOk(password)){
             CoroutineScope(Dispatchers.Main).launch {
                 setIsVisibleInMainThread(false)
             }
@@ -87,25 +96,24 @@ class LoginActivityViewModel: ViewModel() {
         }
     }
 
-    private fun isUserOk(email:String) : Boolean {
+    private fun isUserOk(email:String): Boolean {
         /**
          * Check if user´s email matches standard email format. Uses regular expressions
-         * @param
-         *
-         * @return
+         * @param email:String
+         * @return Boolean true if matches, false if not
          */
         val regex = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+\$")
         return regex.matches(email)
     }
 
-    private fun isPasswordOk(password:String) : Boolean{
+    private fun isPasswordOk(password:String): Boolean{
         /**
          * Check if the user´s password matches password format.
          * Min 8 characters; at least 1 upperCase; at least 1 lowerCase; at least 1 number; at least 1 special character; no blanks
          *
-         * @param
+         * @param password:String
          *
-         * @return
+         * @return Boolean true if matches, false if not
          */
         val regex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\$@!%*?&.,;])([A-Za-z\\d\$@!%*?&.,;]|[^ ]){8,}\$")
         return regex.matches(password)

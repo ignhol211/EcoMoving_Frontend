@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.example.ecomovingapp.Error
 import com.example.ecomovingapp.localdatabase.AppDatabase
+import com.example.ecomovingapp.localdatabase.Location
 import com.example.ecomovingapp.localdatabase.LocationDao
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -39,9 +41,33 @@ class MapsActivityViewModel: ViewModel() {
         _error.value = value
     }
 
+    private val _locations by lazy { MediatorLiveData<List<Location>>() }
+    val locations : LiveData<List<Location>>
+        get() = _locations
+
+    suspend fun setLocationsInMainThread(location:List<Location>) = withContext(Dispatchers.Main){
+        _locations.value = location
+    }
+
     fun initializeDatabase(context: Context){
         db = Room.databaseBuilder(context,AppDatabase::class.java,"locations").build()
         locationDao = db.locationDao()
+    }
+
+    fun saveLocation(location: Location){
+        viewModelScope.launch{
+            withContext(Dispatchers.IO){
+                locationDao.insertOne(location)
+            }
+        }
+    }
+
+    suspend fun getAllLocations(){
+        viewModelScope.launch{
+            withContext(Dispatchers.IO){
+                setLocationsInMainThread(locationDao.getAll())
+            }
+        }
     }
 
 
