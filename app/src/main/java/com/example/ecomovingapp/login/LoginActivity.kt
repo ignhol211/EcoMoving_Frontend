@@ -1,13 +1,21 @@
 package com.example.ecomovingapp.login
 
+import android.animation.ObjectAnimator
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
+import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.core.animation.doOnEnd
 import com.example.ecomovingapp.Error
+import com.example.ecomovingapp.R
 import com.example.ecomovingapp.User
 import com.example.ecomovingapp.registration.SignUpActivity
 import com.example.ecomovingapp.databinding.LoginActivityBinding
@@ -20,7 +28,9 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel : LoginActivityViewModel by viewModels()
 
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_EcoMovingApp)
         binding = LoginActivityBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

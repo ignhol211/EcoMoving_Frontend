@@ -15,8 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EcoMovingApp">
         <activity
-            android:name=".login.LoginActivity"
-            android:exported="true">
+            android:name=".login.SplashActivity"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,15 +25,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".login.LoginActivity"
+            android:exported="true"/>
+        <activity
             android:name=".registration.SignUpActivity"
             android:exported="true" />
         <activity
             android:name=".journey.MapsActivity"
             android:exported="true" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
     </application>
 
 </manifest>
