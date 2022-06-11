@@ -19,6 +19,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/text_views"/>
 
+    <Button
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Navigate"
+        app:layout_constraintBottom_toTopOf="@id/text_views"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/map"
+        app:cornerRadius="15dp"
+        android:backgroundTint="@color/ecomoving_darkgreen"/>
+
     <LinearLayout
         android:id="@+id/text_views"
         android:layout_width="match_parent"
@@ -26,7 +38,7 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/map"
+        app:layout_constraintTop_toBottomOf="@id/navigation"
         app:layout_constraintBottom_toTopOf="@id/buttons">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -48,8 +60,10 @@
                     android:hint="Punto de origen"
                     android:layout_weight="0.5"
                     android:inputType="text"
+                    android:text=""
                     app:errorEnabled="true"/>
                 <Button
+                    android:id="@+id/location_via_gps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="GPS"
@@ -82,8 +96,10 @@
                     android:hint="Punto de origen"
                     android:layout_weight="0.5"
                     android:inputType="text"
+                    android:text=""
                     app:errorEnabled="true"/>
                 <Button
+                    android:id="@+id/locations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Locations"
@@ -120,53 +136,56 @@
 
     <LinearLayout
         android:id="@+id/buttons"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/ecomoving_darkgreen"
             android:text="@string/save"
-            app:cornerRadius="15dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:cornerRadius="15dp" />
+
         <Button
             android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/ecomoving_darkgreen"
             android:text="@string/cancel"
-            app:cornerRadius="15dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:cornerRadius="15dp" />
 
         <Button
             android:id="@+id/button_focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/ecomoving_darkgreen"
             android:onClick="focusOnUser"
             android:text="@string/focus"
-            app:cornerRadius="15dp"/>
+            android:visibility="visible"
+            app:cornerRadius="15dp" />
 
         <Button
-            android:id="@+id/button_addMarker"
+            android:id="@+id/drop_database"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/ecomoving_darkgreen"
-            android:onClick="addMarker"
-            android:text="@string/marcador"
-            app:cornerRadius="15dp"/>
+            android:text="Drop database"
+            android:visibility="gone"
+            app:cornerRadius="15dp" />
 
     </LinearLayout>
 

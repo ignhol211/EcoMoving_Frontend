@@ -4,23 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.ecomovingapp.R
-import com.example.ecomovingapp.databinding.MapsActivityBinding
 import com.example.ecomovingapp.localdatabase.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.runBlocking
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
@@ -33,19 +32,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
             context.startActivity(intent)
         }
     }
-
-    private lateinit var save:Button
-    private lateinit var cancel:Button
-    private lateinit var focus:Button
-    private lateinit var addMarker:Button
-    private lateinit var locationDescription:TextView
-    private lateinit var originPoint:TextView
-    private lateinit var destinationPoint:TextView
-
     private lateinit var map: GoogleMap
     private val viewModel : MapsActivityViewModel by viewModels()
 
     val USER = LatLng(39.47882734895583,-0.34249696880579)
+
+    private lateinit var save:Button
+    private lateinit var cancel:Button
+    private lateinit var focus:Button
+    private lateinit var locationDescription:EditText
+    private lateinit var originPoint:EditText
+    private lateinit var destinationPoint:EditText
+    private lateinit var locations:Button
+    private lateinit var dropDatabase:Button
+    private lateinit var navigation:Button
+    private lateinit var locationViaGPS: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +60,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
         locationDescription = this.findViewById(R.id.location_description)
         originPoint = this.findViewById(R.id.origin_point)
         destinationPoint = this.findViewById(R.id.destination_point)
-        addMarker = this.findViewById(R.id.button_addMarker)
+        locations = this.findViewById(R.id.locations)
+        dropDatabase = this.findViewById(R.id.drop_database)
+        navigation = this.findViewById(R.id.navigation)
+        locationViaGPS = this.findViewById(R.id.location_via_gps)
 
         val token = intent.getStringExtra(TOKEN)
 
@@ -69,10 +73,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
 
         initObserver()
 
-        addMarker.setOnClickListener{
-            runBlocking{
+        locations.setOnClickListener{
+            runBlocking {
                 viewModel.getAllLocations()
+                showButtonsDropCancel()
+                dropDatabase.setOnClickListener{
+                    dropDatabase()
+                }
+                cancel.setOnClickListener{
+                    hideButtonsDropCancel()
+                }
             }
+        }
+
+        navigation.setOnClickListener(){
+            val route = PolylineOptions().add(USER).add(LatLng(39.47335251375559,-0.3365186601877213))
+            map.addPolyline(route)
+        }
+
+        locationViaGPS.setOnClickListener{
+            originPoint.text = Editable.Factory.getInstance().newEditable(USER.toString())
         }
 
     }
@@ -93,7 +113,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
             list.forEach { location->
                 map.addMarker(
                     MarkerOptions().position(LatLng(location.latitude, location.longitude))
-                        .icon(fromResource(R.mipmap.user))
+                        .icon(fromResource(R.mipmap.location))
                 )
             }
         }
@@ -119,20 +139,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
         map.animateCamera(CameraUpdateFactory.newLatLng(USER))
     }
 
-    fun addMarker(view:View){
-        map.addMarker((MarkerOptions().position(map.cameraPosition.target)))
-    }
-
     override fun onMapClick(p0: LatLng) {
-        map.addMarker(MarkerOptions().position(p0)
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)))
+        val marker = MarkerOptions().position(p0)
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+        marker.draggable(true)
+        marker.visible(true)
+        map.addMarker(marker)
         showButtonsSaveCancel()
         save.setOnClickListener{
             viewModel.saveLocation(Location(0,p0.latitude,p0.longitude,locationDescription.text.toString()))
             hideButtonsSaveCancel()
+            marker.visible(false)
         }
         cancel.setOnClickListener{
             hideButtonsSaveCancel()
+            marker.visible(false)
         }
     }
 
@@ -142,7 +163,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
         locationDescription.visibility = View.VISIBLE
 
         focus.visibility = View.GONE
-        addMarker.visibility = View.GONE
         originPoint.visibility = View.GONE
         destinationPoint.visibility = View.GONE
     }
@@ -151,10 +171,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
         save.visibility = View.GONE
         cancel.visibility = View.GONE
         locationDescription.visibility = View.GONE
+        dropDatabase.visibility = View.GONE
 
         focus.visibility = View.VISIBLE
-        addMarker.visibility = View.VISIBLE
         originPoint.visibility = View.VISIBLE
         destinationPoint.visibility = View.VISIBLE
+    }
+
+    fun showButtonsDropCancel(){
+        dropDatabase.visibility = View.VISIBLE
+        cancel.visibility = View.VISIBLE
+
+        focus.visibility = View.GONE
+    }
+
+    fun hideButtonsDropCancel(){
+        dropDatabase.visibility = View.GONE
+        cancel.visibility = View.GONE
+
+        focus.visibility = View.VISIBLE
+    }
+
+    fun dropDatabase(){
+        viewModel.dropDatabase()
+        hideButtonsDropCancel()
     }
 }

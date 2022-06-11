@@ -62,6 +62,14 @@ class MapsActivityViewModel: ViewModel() {
         }
     }
 
+    fun dropDatabase(){
+        viewModelScope.launch{
+            withContext(Dispatchers.IO){
+                locationDao.emptyDatabase()
+            }
+        }
+    }
+
     suspend fun getAllLocations(){
         viewModelScope.launch{
             withContext(Dispatchers.IO){
