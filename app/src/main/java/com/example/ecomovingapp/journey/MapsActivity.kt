@@ -6,10 +6,12 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.ecomovingapp.R
+import com.example.ecomovingapp.databinding.MapsActivityBinding
 import com.example.ecomovingapp.localdatabase.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -31,24 +33,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
             context.startActivity(intent)
         }
     }
+
     private lateinit var save:Button
     private lateinit var cancel:Button
     private lateinit var focus:Button
     private lateinit var addMarker:Button
+    private lateinit var locationDescription:TextView
+    private lateinit var originPoint:TextView
+    private lateinit var destinationPoint:TextView
 
-    lateinit var map: GoogleMap
-    val USER = LatLng(39.481106, -0.340987)
+    private lateinit var map: GoogleMap
     private val viewModel : MapsActivityViewModel by viewModels()
+
+    val USER = LatLng(39.47882734895583,-0.34249696880579)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.maps_activity)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        save = this.findViewById<Button>(R.id.button_save)
-        cancel = this.findViewById<Button>(R.id.button_cancel)
-        focus = this.findViewById<Button>(R.id.button_focus)
-        addMarker = this.findViewById<Button>(R.id.button_addMarker)
+
+        save = this.findViewById(R.id.button_save)
+        cancel = this.findViewById(R.id.button_cancel)
+        focus = this.findViewById(R.id.button_focus)
+        locationDescription = this.findViewById(R.id.location_description)
+        originPoint = this.findViewById(R.id.origin_point)
+        destinationPoint = this.findViewById(R.id.destination_point)
+        addMarker = this.findViewById(R.id.button_addMarker)
 
         val token = intent.getStringExtra(TOKEN)
 
@@ -64,9 +75,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
             }
         }
 
-        cancel.setOnClickListener{
-            hideButtonsSaveCancel()
-        }
     }
 
     private fun initObserver() {
@@ -120,23 +128,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)))
         showButtonsSaveCancel()
         save.setOnClickListener{
-            viewModel.saveLocation(Location(0,p0.latitude,p0.longitude,""))
+            viewModel.saveLocation(Location(0,p0.latitude,p0.longitude,locationDescription.text.toString()))
+            hideButtonsSaveCancel()
+        }
+        cancel.setOnClickListener{
+            hideButtonsSaveCancel()
         }
     }
 
     fun showButtonsSaveCancel(){
         save.visibility = View.VISIBLE
         cancel.visibility = View.VISIBLE
+        locationDescription.visibility = View.VISIBLE
 
         focus.visibility = View.GONE
         addMarker.visibility = View.GONE
+        originPoint.visibility = View.GONE
+        destinationPoint.visibility = View.GONE
     }
 
     fun hideButtonsSaveCancel(){
         save.visibility = View.GONE
         cancel.visibility = View.GONE
+        locationDescription.visibility = View.GONE
 
         focus.visibility = View.VISIBLE
         addMarker.visibility = View.VISIBLE
+        originPoint.visibility = View.VISIBLE
+        destinationPoint.visibility = View.VISIBLE
     }
 }

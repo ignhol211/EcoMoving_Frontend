@@ -4,7 +4,7 @@
     <string name="login_password">Password</string>
     <string name="iv_logo_description">EcoMovingLogo</string>
     <string name="sign_up">Sign up</string>
-    <string name="sign_in">Sing in</string>
+    <string name="sign_in">Log in</string>
     <string name="userformat">user@example.com</string>
     <string name="passwordformat">Example123$</string>
     <string name="copyright">©IgnacioHolguínBallesteros</string>
@@ -14,6 +14,6 @@
     <string name="linkedin">LinkedIn</string>
     <string name="save">Save</string>
     <string name="focus">Focus</string>
-    <string name="marcador">marcador</string>
+    <string name="marcador">Marker</string>
     <string name="cancel">Cancel</string>
 </resources>
