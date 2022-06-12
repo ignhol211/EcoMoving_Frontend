@@ -16,4 +16,11 @@
     <string name="focus">Focus</string>
     <string name="marcador">Marker</string>
     <string name="cancel">Cancel</string>
+    <string name="calculate">Calculate</string>
+    <string name="origin_point">Punto de origen</string>
+    <string name="gps">GPS</string>
+    <string name="locations">Locations</string>
+    <string name="description">Description</string>
+    <string name="drop_database">Drop database</string>
+    <string name="accept">Accept</string>
 </resources>

@@ -8,8 +8,8 @@ import android.text.Editable
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.ecomovingapp.R
@@ -34,6 +34,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
     }
     private lateinit var map: GoogleMap
     private val viewModel : MapsActivityViewModel by viewModels()
+    private lateinit var GLOBALTOKEN:String
 
     val USER = LatLng(39.47882734895583,-0.34249696880579)
 
@@ -45,8 +46,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
     private lateinit var destinationPoint:EditText
     private lateinit var locations:Button
     private lateinit var dropDatabase:Button
-    private lateinit var navigation:Button
+    private lateinit var calculate:Button
     private lateinit var locationViaGPS: Button
+    private lateinit var acceptRoute:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,14 +64,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
         destinationPoint = this.findViewById(R.id.destination_point)
         locations = this.findViewById(R.id.locations)
         dropDatabase = this.findViewById(R.id.drop_database)
-        navigation = this.findViewById(R.id.navigation)
+        calculate = this.findViewById(R.id.navigation)
         locationViaGPS = this.findViewById(R.id.location_via_gps)
+        acceptRoute = this.findViewById(R.id.accept)
 
-        val token = intent.getStringExtra(TOKEN)
+        GLOBALTOKEN = intent.getStringExtra(TOKEN).toString()
 
         viewModel.initializeDatabase(this)
 
-        viewModel.getAvailableVehicles(token.toString())
+        viewModel.getAvailableVehicles(GLOBALTOKEN)
 
         initObserver()
 
@@ -86,9 +89,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
             }
         }
 
-        navigation.setOnClickListener(){
-            val route = PolylineOptions().add(USER).add(LatLng(39.47335251375559,-0.3365186601877213))
-            map.addPolyline(route)
+        calculate.setOnClickListener(){
+            showRoute(USER,LatLng(39.47335251375559,-0.3365186601877213))
+            showAcceptParameters(10,900)
         }
 
         locationViaGPS.setOnClickListener{
@@ -142,19 +145,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
     override fun onMapClick(p0: LatLng) {
         val marker = MarkerOptions().position(p0)
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-        marker.draggable(true)
-        marker.visible(true)
         map.addMarker(marker)
         showButtonsSaveCancel()
+        locationViaGPS.visibility = View.GONE
+        locations.visibility = View.GONE
         save.setOnClickListener{
             viewModel.saveLocation(Location(0,p0.latitude,p0.longitude,locationDescription.text.toString()))
+            removeMarkers()
             hideButtonsSaveCancel()
-            marker.visible(false)
         }
         cancel.setOnClickListener{
             hideButtonsSaveCancel()
-            marker.visible(false)
+            removeMarkers()
         }
+    }
+
+    fun removeMarkers(){
+        map.clear()
+        viewModel.getAvailableVehicles(GLOBALTOKEN)
+        map.addMarker(MarkerOptions().position(USER).title("User")
+            .icon(fromResource(R.mipmap.user)))
+        locations.visibility = View.VISIBLE
+        locationViaGPS.visibility = View.VISIBLE
+        cancel.visibility = View.GONE
+        acceptRoute.visibility = View.GONE
     }
 
     fun showButtonsSaveCancel(){
@@ -193,7 +207,75 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapCli
     }
 
     fun dropDatabase(){
+        /**
+         * Empty local database
+         */
         viewModel.dropDatabase()
         hideButtonsDropCancel()
+        removeMarkers()
+    }
+
+    fun showRoute(originPoint:LatLng,destinationPoint:LatLng){
+        /**
+         * Show route between origin and destination
+         * @param originPoint:LatLng
+         * @param destinationPoint:LatLng
+         */
+        val route = PolylineOptions().add(originPoint).add(destinationPoint)
+        map.addPolyline(route)
+    }
+
+    fun showAcceptParameters(distance:Int, duration:Int){
+        cancel.visibility = View.VISIBLE
+        acceptRoute.visibility = View.VISIBLE
+
+        originPoint.visibility = View.GONE
+        destinationPoint.visibility = View.GONE
+        locationViaGPS.visibility = View.GONE
+        locations.visibility = View.GONE
+        hideButtonsSaveCancel()
+        cancel.visibility = View.VISIBLE
+
+        cancel.setOnClickListener{
+            hideButtonsSaveCancel()
+            removeMarkers()
+        }
+
+        acceptRoute.setOnClickListener{
+            val marker = MarkerOptions().position(LatLng(39.46736890994236,-0.35045843571424484))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+            marker.draggable(true)
+            marker.visible(true)
+            map.addMarker(marker)
+
+            val destinationPoint = LatLng(39.46736890994236,-0.35045843571424484)
+
+            val route = PolylineOptions().add(USER).add(destinationPoint).color(R.color.ecomoving_darkgreen)
+            map.addPolyline(route)
+
+            showAlert(calculatePrice(distance,duration))
+
+        }
+    }
+
+    fun calculatePrice(distance:Int, duration:Int):Int{
+        /**
+         * Function to calculate the price of the route define by user
+         * Distance and duration are use to calculate price
+         * @param distance:Int between origin point and destination point
+         * @param duration:Int trip duration in seconds
+         *
+         * @return price:Int
+         */
+        return distance*duration/10
+    }
+
+    fun showAlert(price:Int) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Price: $price")
+        builder.setPositiveButton("Yes"){_,_ ->}
+        builder.setNegativeButton("No"){_,_ ->removeMarkers()}
+        builder.create()
+        builder.show()
     }
 }

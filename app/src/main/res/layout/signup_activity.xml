@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:hint="@string/login_password"
-            android:inputType="text"
+            android:inputType="textPassword"
             app:errorEnabled="true" />
     </com.google.android.material.textfield.TextInputLayout>
 

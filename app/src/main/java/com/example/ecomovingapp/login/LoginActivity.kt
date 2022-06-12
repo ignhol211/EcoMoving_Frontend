@@ -1,25 +1,19 @@
 package com.example.ecomovingapp.login
 
-import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
-import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
-import android.view.animation.AnticipateInterpolator
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.core.animation.doOnEnd
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import com.example.ecomovingapp.Error
 import com.example.ecomovingapp.R
 import com.example.ecomovingapp.User
-import com.example.ecomovingapp.registration.SignUpActivity
 import com.example.ecomovingapp.databinding.LoginActivityBinding
 import com.example.ecomovingapp.journey.MapsActivity
+import com.example.ecomovingapp.registration.SignUpActivity
 import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity() {

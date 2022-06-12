@@ -23,7 +23,7 @@
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Navigate"
+        android:text="@string/calculate"
         app:layout_constraintBottom_toTopOf="@id/text_views"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
                     android:id="@+id/origin_point"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Punto de origen"
+                    android:hint="@string/origin_point"
                     android:layout_weight="0.5"
                     android:inputType="text"
                     android:text=""
@@ -66,7 +66,7 @@
                     android:id="@+id/location_via_gps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="GPS"
+                    android:text="@string/gps"
                     app:cornerRadius="15dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/ecomoving_darkgreen"/>
@@ -93,7 +93,7 @@
                     android:id="@+id/destination_point"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Punto de origen"
+                    android:hint="@string/origin_point"
                     android:layout_weight="0.5"
                     android:inputType="text"
                     android:text=""
@@ -102,7 +102,7 @@
                     android:id="@+id/locations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Locations"
+                    android:text="@string/locations"
                     app:cornerRadius="15dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/ecomoving_darkgreen"/>
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:hint="Description"
+                android:hint="@string/description"
                 android:inputType="text"
                 app:errorEnabled="true" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -140,7 +140,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        style="?android:attr/buttonBarButtonStyle">
 
         <Button
             android:id="@+id/button_save"
@@ -151,7 +152,7 @@
             android:backgroundTint="@color/ecomoving_darkgreen"
             android:text="@string/save"
             android:visibility="gone"
-            app:cornerRadius="15dp" />
+            app:cornerRadius="15dp"/>
 
         <Button
             android:id="@+id/button_cancel"
@@ -162,7 +163,7 @@
             android:backgroundTint="@color/ecomoving_darkgreen"
             android:text="@string/cancel"
             android:visibility="gone"
-            app:cornerRadius="15dp" />
+            app:cornerRadius="15dp"/>
 
         <Button
             android:id="@+id/button_focus"
@@ -174,7 +175,7 @@
             android:onClick="focusOnUser"
             android:text="@string/focus"
             android:visibility="visible"
-            app:cornerRadius="15dp" />
+            app:cornerRadius="15dp"/>
 
         <Button
             android:id="@+id/drop_database"
@@ -183,9 +184,20 @@
             android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
             android:backgroundTint="@color/ecomoving_darkgreen"
-            android:text="Drop database"
+            android:text="@string/drop_database"
             android:visibility="gone"
-            app:cornerRadius="15dp" />
+            app:cornerRadius="15dp"/>
+
+        <Button
+            android:id="@+id/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/ecomoving_darkgreen"
+            android:text="@string/accept"
+            android:visibility="gone"
+            app:cornerRadius="15dp"/>
 
     </LinearLayout>
 
