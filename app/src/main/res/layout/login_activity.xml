@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".login.LoginActivity"
-    android:backgroundTint="@color/ecomoving_lightgreen">
+    android:background="@drawable/gradient">
 
     <LinearLayout
         android:id="@+id/social_media"
@@ -48,7 +48,7 @@
             android:contentDescription="@string/linkedin"/>
     </LinearLayout>
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_logo"
         android:layout_width="175dp"
         android:layout_height="175dp"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="15dp"
         android:text="@string/userformat"
-        android:textColor="@color/ecomoving_darkgreen"
+        android:textColor="@color/white"
         android:textSize="13sp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/til_user"
@@ -101,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:textColor="@color/white"
             android:hint="@string/login_user"
             android:inputType="text"
             app:errorEnabled="true"/>
@@ -112,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="15dp"
         android:text="@string/passwordformat"
-        android:textColor="@color/ecomoving_darkgreen"
+        android:textColor="@color/white"
         android:textSize="13sp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/til_password"
@@ -147,6 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:textColor="@color/white"
             android:hint="@string/login_password"
             android:inputType="textPassword"
             app:errorEnabled="true" />
@@ -187,7 +189,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/ecomoving_darkgreen"
+        android:textColor="@color/black"
         android:text="@string/copyright"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

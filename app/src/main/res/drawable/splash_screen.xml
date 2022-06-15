@@ -2,16 +2,19 @@
 <layer-list android:opacity="opaque"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/ecomoving_lightgreen"/>
+    <item android:drawable="@drawable/gradient"/>
 
     <item
         android:left="150dp"
         android:right="150dp"
         android:top="300dp"
-        android:bottom="300dp">
+        android:bottom="300dp"
+        android:gravity="center">
 
         <bitmap android:src="@mipmap/ecomoving_logo"/>
 
     </item>
+
+
 
 </layer-list>
